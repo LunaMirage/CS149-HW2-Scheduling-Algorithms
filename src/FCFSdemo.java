@@ -31,7 +31,6 @@ public class FCFSdemo {
 			System.out.println("P" + (i + 1) + "\t\t" + bt[i] + "\t\t" + wt[i]
 					+ "\t\t" + tat[i]);
 		}
-		float awt, atat;
 		System.out.println("Average Waiting time=" + t1 / p);
 		System.out.println("Average Turn Around time=" + t2 / p);
 	}
