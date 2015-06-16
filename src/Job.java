@@ -3,7 +3,7 @@ public class Job {
 	
 	// Necessary Job Variables
 	public String JobName;
-	public float ArrivalTime; // Time or Position it arrived
+	public int ArrivalTime; // Time or Position it arrived
 	public float CPUTime; // Time it takes to complete
 	public int Priority;
 	
