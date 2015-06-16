@@ -41,4 +41,28 @@ public class Job {
 		return TurnAroundTime;
 	}
 
+	public void setJobName(String jobName) {
+		JobName = jobName;
+	}
+
+	public void setArrivalTime(int arrivalTime) {
+		ArrivalTime = arrivalTime;
+	}
+
+	public void setCPUTime(float cPUTime) {
+		CPUTime = cPUTime;
+	}
+
+	public void setPriority(int priority) {
+		Priority = priority;
+	}
+
+	public void setWaitingTime(float waitingTime) {
+		WaitingTime = waitingTime;
+	}
+
+	public void setTurnAroundTime(float turnAroundTime) {
+		TurnAroundTime = turnAroundTime;
+	}
+
 }
