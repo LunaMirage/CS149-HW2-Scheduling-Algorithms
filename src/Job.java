@@ -7,8 +7,8 @@ public class Job {
 	public int Priority;
 
 	// Extra Variables for Calculation
-	public int WaitingTime;
-	public int TurnAroundTime;
+	public float WaitingTime;
+	public float TurnAroundTime;
 
 	public Job(String name, int arrival, float cpuTime, int priorityVal) {
 		this.JobName = name;
@@ -33,11 +33,11 @@ public class Job {
 		return Priority;
 	}
 
-	public int getWaitingTime() {
+	public float getWaitingTime() {
 		return WaitingTime;
 	}
 
-	public int getTurnAroundTime() {
+	public float getTurnAroundTime() {
 		return TurnAroundTime;
 	}
 

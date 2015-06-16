@@ -2,18 +2,20 @@ import java.util.Random;
 
 public class FCFS {
 
-	public static Job[] jobList = new Job[20];
-	public static int[] arrivalArray = new int[20];
-
-	static float min = 0.1f;
-	static float max = 10.0f;
-
 	public static void main(String[] args) {
+
+		Job[] jobList = new Job[20];
+		int[] arrivalArray = new int[100];
+
+		float min = 0.1f;
+		float max = 10.0f;
+		float avgWait = 0, avgTurnAround = 0;
 
 		// Fill the arrivalArray
 		for (int i = 0; i < 99; i++) {
 			arrivalArray[i] = i + 1;
 		}
+
 		// Add jobs to the jobList
 		for (int i = 0; i < 20; i++) {
 			Random r = new Random();
@@ -27,27 +29,22 @@ public class FCFS {
 			}
 		}
 
+		// Sort by Arrival Time (Bubble Sort)
+		for (int j = 0; j < jobList.length; j++) {
+			for (int k = 0; k < jobList.length; k++) {
+				if (jobList[j].getArrivalTime() < jobList[k].getArrivalTime()) {
+					Job buffer = jobList[j];
+					jobList[j] = jobList[k];
+					jobList[k] = buffer;
+				}
+			}
+		}
+
 		// Algorithm
-		int wt[] = new int[20];
-		wt[0] = 0;
-		for (int i = 1; i < 21; i++) {
-			wt[i] = jobList[i - 1].getWaitingTime() + wt[i - 1];
-			t1 += wt[i];
+		for (int i = 0; i < jobList.length; i++) {
+			float waitTime = 0.0f;
+			jobList[i].getTurnAroundTime() = jobList[i].getCPUTime() + waitTime;
 		}
-		int tat[] = new int[p];
-		for (int i = 0; i < p; i++) {
-			tat[i] = bt[i] + wt[i];
-			t2 += tat[i];
-		}
-		
-		System.out
-				.println("Process\tBurst time\tWaiting time\tTurn Around time");
-		for (int i = 0; i < p; i++) {
-			System.out.println("P" + (i + 1) + "\t\t" + bt[i] + "\t\t" + wt[i]
-					+ "\t\t" + tat[i]);
-		}
-		System.out.println("Average Waiting time=" + t1 / p);
-		System.out.println("Average Turn Around time=" + t2 / p);
 
 	}
 
