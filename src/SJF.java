@@ -21,6 +21,7 @@ class SJF
 			int jobNum = r.nextInt(100);
 			if (arrivalArray[jobNum] != 0) {
 				jobList.add(new Job("Job " + (i+1), arrivalArray[jobNum], r.nextFloat() * (max - min) + min,i));
+				arrivalArray[jobNum] = 0;
 			}		
 			else{
 				i--;
@@ -66,7 +67,7 @@ class SJF
 
 		// Print Results
 		System.out
-				.println("Process || CPU Time (Response) || Waiting Time || Turn Around Time");
+				.println("Process || Arrival Time || CPU Time (Response) || Waiting Time || Turn Around Time");
 		System.out.println("-----------------------------");
 		for (int i = 0; i < jobList.size(); i++) {
 			System.out
