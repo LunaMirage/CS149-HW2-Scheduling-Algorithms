@@ -62,21 +62,23 @@ public class FCFS {
 		avgTurnAround = totalTurnAround / 20;
 
 		// Print Results
-
 		System.out
-				.println("Process || CPU Time || Waiting Time || Turn Around Time");
+				.println("Process || CPU Time (Response) || Waiting Time || Turn Around Time");
 		System.out.println("-----------------------------");
 		for (int i = 0; i < jobList.length; i++) {
 			System.out
-					.println("Process: " + jobList[i].getJobName()
-							+ " || CPU Time: " + jobList[i].getCPUTime()
-							+ " || Wait Time: " + jobList[i].getWaitingTime()
+					.println("Process Name: " + jobList[i].getJobName()
+							+ " || Arrival Time: "
+							+ jobList[i].getArrivalTime() + " || CPU Time (Response): "
+							+ jobList[i].getCPUTime() + " || Wait Time: "
+							+ jobList[i].getWaitingTime()
 							+ " || Turn Around Time: "
 							+ jobList[i].getTurnAroundTime());
 		}
 
 		System.out.println("-----------------------------");
 
+		System.out.println("Total Jobs Completed: " + jobList.length);
 		System.out.println("Average Wait Time: " + avgWait);
 		System.out.println("Average Turn Around: " + avgTurnAround);
 
