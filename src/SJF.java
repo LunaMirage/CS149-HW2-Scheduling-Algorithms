@@ -1,79 +1,88 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Random;
 class SJF
 {
+	public static int[] arrivalArray = new int[100];
+	public static ArrayList<Job> jobList = new ArrayList<Job>();
+	
 	public static void main(String args[])
 	{
-		Scanner sc=new Scanner(System.in);
-		int n,BT[],WT[],TAT[];
-		
-		System.out.println("Enter number of process");
-		n=sc.nextInt();
-		BT=new int[n+1];
-		WT=new int[n+1];
-		TAT=new int[n+1];
-		
-		float AWT=0;
-		float ATAT=0;
-		
-		System.out.println("Enter burst time");
-		for(int i=0;i<n;i++)
-		{
-			System.out.println("Burst time for P"+(i+1)+"=");
-			BT[i]=sc.nextInt();
+		// Fill the arrivalArray
+		for (int i = 0; i < 99; i++) {
+			arrivalArray[i] = i+1;
 		}
-		
-		for(int i=0;i<n;i++)
-		{
-			WT[i]=0;
-			TAT[i]=0;
-		}
-		
-		//sorting process queue by burst time
-		int temp;
-		for(int i=0;i<n;i++)
-		{
-			for(int j=0;j<n-1;j++)
-			{ 
-				if(BT[j]>BT[j+1])
-				{
-					temp=BT[j];
-					BT[j]=BT[j+1];
-					BT[j+1]=temp;
-					
-					temp=WT[j];
-					WT[j]=WT[j+1];
-					WT[j+1]=temp;
-				}
+		float min = 0.1f;
+		float max = 10.0f;
+		// Add jobs to the jobList
+		for (int i = 0; i < 20; i++) {
+			Random r = new Random();
+			int jobNum = r.nextInt(100);
+			if (arrivalArray[jobNum] != 0) {
+				jobList.add(new Job("Job " + (i+1), arrivalArray[jobNum], r.nextFloat() * (max - min) + min,i));
+			}		
+			else{
+				i--;
 			}
 		}
+		//sorting process queue by burst time
+		class mycomp implements Comparator<Job>{
+  	      public int compare(Job j1, Job j2) // comparator for sorting
+  	      {
+  	    	//  System.out.println((j1.CPUTime - j2.CPUTime));
+  	    	  if ((j1.CPUTime - j2.CPUTime)>=0){
+  	    		  return 1;
+  	    	  }
+ 	    	  else return -1; 	       
+  	      }
+		}
+	    Collections.sort(jobList, new mycomp());                // sort tasks by burst times
 			
-		for(int i=0;i<n;i++)
-		{
-			TAT[i]=BT[i]+WT[i];
-			WT[i+1]=TAT[i];
+		// Algorithm
+		float waitTime = 0.0f;
+
+		for (int i = 0; i < jobList.size(); i++) {
+			jobList.get(i).setWaitingTime(waitTime);
+			jobList.get(i).setTurnAroundTime(jobList.get(i).getCPUTime() + waitTime);
+			waitTime = jobList.get(i).getTurnAroundTime();
 		}
-		TAT[n]=WT[n]+BT[n];
 		
-		//print outputs
-		System.out.println("Process\tBurst time\tWaiting time\tTurn Around time");
-		
-		for(int i=0;i<n;i++)
-		{
-			System.out.println("P" + (i+1) + "\t\t" + BT[i] + "\t\t" + WT[i]
-				+ "\t\t" + TAT[i]);
+		// Calculate Averages
+		float totalWait = 0.0f;
+		float totalTurnAround = 0.0f;
+		float totalResponse = 0.0f;
+		float avgWait = 0, avgTurnAround = 0, avgResponse= 0;
+
+		for (int i = 0; i < 20; i++) {
+			totalWait += jobList.get(i).getWaitingTime();
+			totalTurnAround += jobList.get(i).getTurnAroundTime();
+			totalResponse += jobList.get(i).getCPUTime();
 		}
-		for(int j=0;j<n;j++)
-		{
-			AWT+=WT[j];
+
+		avgWait = totalWait / 20;
+		avgTurnAround = totalTurnAround / 20;
+		avgResponse = totalResponse / 20;
+
+		// Print Results
+		System.out
+				.println("Process || CPU Time (Response) || Waiting Time || Turn Around Time");
+		System.out.println("-----------------------------");
+		for (int i = 0; i < jobList.size(); i++) {
+			System.out
+					.println("Process Name: " + jobList.get(i).getJobName()
+							+ " || Arrival Time: "
+							+ jobList.get(i).getArrivalTime() + " || CPU Time (Response): "
+							+ jobList.get(i).getCPUTime() + " || Wait Time: "
+							+ jobList.get(i).getWaitingTime()
+							+ " || Turn Around Time: "
+							+ jobList.get(i).getTurnAroundTime());
 		}
-		AWT=AWT/n;
-		for(int j=0;j<n;j++)
-		{
-			ATAT+=TAT[j];
-		}
-		ATAT=ATAT/n;
-		
-		System.out.println("Average Waiting time=" + AWT);
-		System.out.println("Average Turn Around time=" + ATAT);
+
+		System.out.println("-----------------------------");
+		System.out.println("Total Jobs Completed: " + jobList.size());
+		System.out.println("Average Wait Time: " + avgWait);
+		System.out.println("Average Turn Around: " + avgTurnAround);
+		System.out.println("Average Response Time: "+ avgResponse);
 	}
 }
