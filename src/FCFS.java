@@ -41,11 +41,44 @@ public class FCFS {
 		}
 
 		// Algorithm
+		float waitTime = 0.0f;
+
 		for (int i = 0; i < jobList.length; i++) {
-			float waitTime = 0.0f;
-			jobList[i].getTurnAroundTime() = jobList[i].getCPUTime() + waitTime;
+			jobList[i].setWaitingTime(waitTime);
+			jobList[i].setTurnAroundTime(jobList[i].getCPUTime() + waitTime);
+			waitTime = jobList[i].getTurnAroundTime();
 		}
 
-	}
+		// Calculate Averages
+		float totalWait = 0.0f;
+		float totalTurnAround = 0.0f;
 
+		for (int i = 0; i < 20; i++) {
+			totalWait += jobList[i].getWaitingTime();
+			totalTurnAround += jobList[i].getTurnAroundTime();
+		}
+
+		avgWait = totalWait / 20;
+		avgTurnAround = totalTurnAround / 20;
+
+		// Print Results
+
+		System.out
+				.println("Process || CPU Time || Waiting Time || Turn Around Time");
+		System.out.println("-----------------------------");
+		for (int i = 0; i < jobList.length; i++) {
+			System.out
+					.println("Process: " + jobList[i].getJobName()
+							+ " || CPU Time: " + jobList[i].getCPUTime()
+							+ " || Wait Time: " + jobList[i].getWaitingTime()
+							+ " || Turn Around Time: "
+							+ jobList[i].getTurnAroundTime());
+		}
+
+		System.out.println("-----------------------------");
+
+		System.out.println("Average Wait Time: " + avgWait);
+		System.out.println("Average Turn Around: " + avgTurnAround);
+
+	}
 }
